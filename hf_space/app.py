@@ -7,6 +7,7 @@ from pathlib import Path
 import gradio as gr
 import joblib
 import pandas as pd
+from gradio.themes.base import Base
 
 
 ROOT = Path(__file__).resolve().parent
@@ -952,9 +953,9 @@ with gr.Blocks(
 
 if __name__ == "__main__":
     demo.launch(
-        theme=gr.themes.Base(
-            primary_hue="blue",
-            neutral_hue="slate",
-        ),
-        css=CUSTOM_CSS,
-    )
+    theme=Base(
+        primary_hue="blue",
+        neutral_hue="slate",
+    ),
+    css=CUSTOM_CSS,
+)

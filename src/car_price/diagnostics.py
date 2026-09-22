@@ -32,13 +32,19 @@ def main() -> None:
 
     pipeline = build_pipeline()
     pipeline.fit(X_train, y_train)
-    predictions = pipeline.predict(X_test)
-    residuals = y_test.to_numpy() - predictions
+
+    predictions = np.asarray(
+        pipeline.predict(X_test),
+        dtype=float,
+    ).reshape(-1)
+
+    actual = y_test.to_numpy(dtype=float)
+    residuals = actual - predictions
 
     metrics = {
-        "r2": r2_score(y_test, predictions),
-        "mae": mean_absolute_error(y_test, predictions),
-        "rmse": mean_squared_error(y_test, predictions) ** 0.5,
+        "r2": r2_score(actual, predictions),
+        "mae": mean_absolute_error(actual, predictions),
+        "rmse": mean_squared_error(actual, predictions) ** 0.5,
     }
 
     FIGURES_DIR.mkdir(parents=True, exist_ok=True)
@@ -47,7 +53,7 @@ def main() -> None:
     pd.DataFrame([metrics]).to_csv(METRICS_PATH, index=False)
 
     error_frame = X_test.copy()
-    error_frame["actual_price"] = y_test.to_numpy()
+    error_frame["actual_price"] = actual
     error_frame["predicted_price"] = predictions
     error_frame["absolute_error"] = np.abs(residuals)
     error_frame.sort_values("absolute_error", ascending=False).head(25).to_csv(
@@ -56,9 +62,9 @@ def main() -> None:
     )
 
     plt.figure(figsize=(7, 6))
-    plt.scatter(y_test, predictions, alpha=0.35)
-    minimum = min(float(y_test.min()), float(predictions.min()))
-    maximum = max(float(y_test.max()), float(predictions.max()))
+    plt.scatter(actual, predictions, alpha=0.35)
+    minimum = min(float(actual.min()), float(predictions.min()))
+    maximum = max(float(actual.max()), float(predictions.max()))
     plt.plot([minimum, maximum], [minimum, maximum], linestyle="--")
     plt.xlabel("Actual price (£)")
     plt.ylabel("Predicted price (£)")
