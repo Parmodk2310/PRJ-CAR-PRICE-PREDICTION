@@ -34,7 +34,7 @@ jobs:
         run: python -m pip check
 
       - name: Ruff
-        run: ruff check src tests
+        run: ruff check src tests hf_space
 
       - name: Black
         run: black --check src tests
