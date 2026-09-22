@@ -20,28 +20,15 @@ from car_price.data import (
 )
 from car_price.pipeline import build_pipeline
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-DATA_PATH = (
-    PROJECT_ROOT
-    / "data"
-    / "raw"
-    / "audi.csv"
-)
+DATA_PATH = PROJECT_ROOT / "data" / "raw" / "audi.csv"
 
 SPACE_DIR = PROJECT_ROOT / "hf_space"
 
-SPACE_MODEL_PATH = (
-    SPACE_DIR
-    / "models"
-    / "car_price_pipeline.joblib"
-)
+SPACE_MODEL_PATH = SPACE_DIR / "models" / "car_price_pipeline.joblib"
 
-SPACE_METADATA_PATH = (
-    SPACE_DIR
-    / "model_metadata.json"
-)
+SPACE_METADATA_PATH = SPACE_DIR / "model_metadata.json"
 
 
 def main() -> None:
@@ -70,9 +57,7 @@ def main() -> None:
         y_train,
     )
 
-    predictions = evaluation_pipeline.predict(
-        X_test
-    )
+    predictions = evaluation_pipeline.predict(X_test)
 
     evaluation = {
         "r2": float(
@@ -120,43 +105,29 @@ def main() -> None:
     metadata = {
         "model_name": "Random Forest",
         "model_version": "v0.2",
-        "feature_count": len(
-            FEATURE_COLUMNS
-        ),
+        "feature_count": len(FEATURE_COLUMNS),
         "categorical": {
             column: [
                 {
                     "label": str(value).strip(),
                     "value": str(value),
                 }
-                for value in sorted(
-                    df[column]
-                    .astype(str)
-                    .unique()
-                )
+                for value in sorted(df[column].astype(str).unique())
             ]
             for column in CATEGORICAL_FEATURES
         },
         "numerical": {
             column: {
-                "min": float(
-                    df[column].min()
-                ),
-                "max": float(
-                    df[column].max()
-                ),
-                "default": float(
-                    df[column].median()
-                ),
+                "min": float(df[column].min()),
+                "max": float(df[column].max()),
+                "default": float(df[column].median()),
             }
             for column in NUMERICAL_FEATURES
         },
         "evaluation": evaluation,
-        "training_rows": int(len(df)),
+        "training_rows": len(df),
         "target": TARGET_COLUMN,
-        "deployment_fit": (
-            "full_dataset_after_evaluation"
-        ),
+        "deployment_fit": ("full_dataset_after_evaluation"),
         "note": (
             "Held-out metrics come from the fixed 80/20 "
             "evaluation split. The deployment pipeline is "
@@ -172,29 +143,17 @@ def main() -> None:
         encoding="utf-8",
     )
 
-    print(
-        "Hugging Face deployment bundle exported."
-    )
+    print("Hugging Face deployment bundle exported.")
 
-    print(
-        f"Model:    {SPACE_MODEL_PATH}"
-    )
+    print(f"Model:    {SPACE_MODEL_PATH}")
 
-    print(
-        f"Metadata: {SPACE_METADATA_PATH}"
-    )
+    print(f"Metadata: {SPACE_METADATA_PATH}")
 
-    print(
-        f"R2:       {evaluation['r2']:.4f}"
-    )
+    print(f"R2:       {evaluation['r2']:.4f}")
 
-    print(
-        f"MAE:      {evaluation['mae']:.2f}"
-    )
+    print(f"MAE:      {evaluation['mae']:.2f}")
 
-    print(
-        f"RMSE:     {evaluation['rmse']:.2f}"
-    )
+    print(f"RMSE:     {evaluation['rmse']:.2f}")
 
 
 if __name__ == "__main__":
