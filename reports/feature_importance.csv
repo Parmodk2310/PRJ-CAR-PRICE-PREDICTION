@@ -1,0 +1,37 @@
+feature,importance
+numerical__mpg,0.45581591250888465
+numerical__year,0.2163623591151862
+numerical__engineSize,0.15255132071675065
+numerical__mileage,0.04914331687299056
+numerical__tax,0.03180900201061357
+categorical__model_ R8,0.021448939806950493
+categorical__transmission_Manual,0.016689288870366237
+categorical__model_ Q7,0.008913882192890703
+categorical__model_ A1,0.0065178557015088765
+categorical__fuelType_Diesel,0.005990798953228595
+categorical__fuelType_Petrol,0.005268618146664827
+categorical__model_ Q5,0.005044421243764586
+categorical__model_ A4,0.003276733183702097
+categorical__model_ RS6,0.0030772789689968035
+categorical__model_ Q8,0.0024190379699059695
+categorical__model_ A3,0.0023127120339226205
+categorical__model_ A6,0.0021207288124909856
+categorical__model_ A5,0.0018427322297085342
+categorical__model_ Q3,0.0013564244823726407
+categorical__transmission_Semi-Auto,0.0011885298697688965
+categorical__model_ A8,0.0011625914814023676
+categorical__transmission_Automatic,0.0010559938343945275
+categorical__model_ Q2,0.0010441005877196777
+categorical__model_ TT,0.0009043982386332378
+categorical__fuelType_Hybrid,0.0008472643419760112
+categorical__model_ A7,0.00047174070254632884
+categorical__model_ SQ5,0.00040633292729305574
+categorical__model_ S4,0.00033563009844128676
+categorical__model_ RS4,0.00024878368274605927
+categorical__model_ S8,0.00012914219839376708
+categorical__model_ RS3,8.88291827467872e-05
+categorical__model_ RS5,7.252329979925528e-05
+categorical__model_ SQ7,5.3118429536380445e-05
+categorical__model_ S3,2.752757030040666e-05
+categorical__model_ A2,1.550723988799806e-06
+categorical__model_ S5,5.790094136139077e-07
