@@ -33,14 +33,14 @@ jobs:
       - name: Dependency health
         run: python -m pip check
 
-      - name: Ruff
+      - name: Ruff lint
         run: ruff check src tests hf_space
 
-      - name: Black
-        run: black --check src tests
+      - name: Ruff format
+        run: ruff format --check src tests hf_space
 
       - name: Compile
-        run: python -m compileall src
+        run: python -m compileall src hf_space
 
       - name: Tests
         run: pytest -v
