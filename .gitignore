@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# CatBoost
+catboost_info/
+
+# Python caches/tests
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Generated profiling reports
+*.html
+
+# Generated ML model artifacts
+**/models/*.joblib
+**/models/*.pkl
+
+
+# Hugging Face export artifacts are generated before deployment
+hf_space/models/*.joblib
+hf_space/model_metadata.json

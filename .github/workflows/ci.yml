@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - chore/ml-repository-hardening
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install package and development tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Dependency health
+        run: python -m pip check
+
+      - name: Ruff lint
+        run: ruff check src tests hf_space
+
+      - name: Ruff format
+        run: ruff format --check src tests hf_space
+
+      - name: Compile
+        run: python -m compileall src hf_space
+
+      - name: Tests
+        run: pytest -v
