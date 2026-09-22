@@ -39,7 +39,7 @@ dist/
 # Generated ML model artifacts
 **/models/*.joblib
 **/models/*.pkl
-hf_space/model_metadata.json
+
 
 # Hugging Face export artifacts are generated before deployment
 hf_space/models/*.joblib
