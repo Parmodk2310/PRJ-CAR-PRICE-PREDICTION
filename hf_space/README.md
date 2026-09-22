@@ -2,12 +2,12 @@
 title: Audi Price Intelligence
 emoji: 🚗
 colorFrom: blue
-colorTo: slate
+colorTo: indigo
 sdk: gradio
 python_version: 3.11
 app_file: app.py
 pinned: false
-short_description: Reproducible Audi used-car regression pipeline with transparent engineering evidence
+short_description: Audi used-car price prediction with ML
 tags:
   - regression
   - scikit-learn
@@ -18,24 +18,26 @@ tags:
 
 # Audi Price Intelligence
 
-A recruiter- and engineering-review-friendly interactive demo for the
-`PRJ-CAR-PRICE-PREDICTION` project.
+Interactive deployment for the Audi used-car price prediction project.
 
-The Space presents both inference and model evidence:
+The Space loads a persisted scikit-learn preprocessing + model pipeline and estimates a benchmark resale price from structured vehicle attributes.
 
-- held-out R², MAE, and RMSE,
-- training record count and feature count,
-- end-to-end persisted preprocessing/model pipeline,
-- 80/20 evaluation design,
-- 5-fold training-partition cross-validation methodology,
-- model limitations and intended use,
-- clean interactive vehicle-price inference.
+## Model evidence
 
-The deployed application loads a pre-trained scikit-learn pipeline. It does not
-retrain the model for every request.
+- Held-out R²: **0.9654**
+- MAE: **£1,517.10**
+- RMSE: **£2,286.48**
+- 10,668 historical Audi listings
+- 8 structured input features
+- 80/20 held-out evaluation
+- 5-fold cross-validation on the training partition
+
+The application performs inference only; it does not retrain the model for every request.
 
 **Source repository:**  
 https://github.com/Parmodk2310/PRJ-CAR-PRICE-PREDICTION
 
 **Portfolio:**  
 https://parmodk2310.vercel.app
+
+> This demo is intended for portfolio, educational, and benchmark-estimation use. It is not a guaranteed market valuation.
