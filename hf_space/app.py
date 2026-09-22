@@ -9,7 +9,6 @@ import joblib
 import pandas as pd
 from gradio.themes.base import Base
 
-
 ROOT = Path(__file__).resolve().parent
 MODEL_PATH = ROOT / "models" / "car_price_pipeline.joblib"
 METADATA_PATH = ROOT / "model_metadata.json"
@@ -25,8 +24,7 @@ if not MODEL_PATH.exists():
 
 if not METADATA_PATH.exists():
     raise RuntimeError(
-        "Missing model_metadata.json. "
-        "Run `python -m car_price.export_space` from the repo first."
+        "Missing model_metadata.json. Run `python -m car_price.export_space` from the repo first."
     )
 
 pipeline = joblib.load(MODEL_PATH)
@@ -108,16 +106,18 @@ def estimate_price(model, year, transmission, mileage, fuel_type, tax, mpg, engi
         raise gr.Error("Select model, transmission, and fuel type before estimating.")
 
     row = pd.DataFrame(
-        [{
-            "model": model,
-            "year": int(year),
-            "transmission": transmission,
-            "mileage": float(mileage),
-            "fuelType": fuel_type,
-            "tax": float(tax),
-            "mpg": float(mpg),
-            "engineSize": float(engine_size),
-        }]
+        [
+            {
+                "model": model,
+                "year": int(year),
+                "transmission": transmission,
+                "mileage": float(mileage),
+                "fuelType": fuel_type,
+                "tax": float(tax),
+                "mpg": float(mpg),
+                "engineSize": float(engine_size),
+            }
+        ]
     )
 
     prediction = float(pipeline.predict(row)[0])
@@ -850,98 +850,91 @@ with gr.Blocks(
 
         # Top main row: no wasted gutter
         with gr.Row(equal_height=False):
-            with gr.Column(scale=3, min_width=280):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML(summary_html)
+            with gr.Column(scale=3, min_width=280), gr.Column(elem_classes=["panel"]):
+                gr.HTML(summary_html)
 
-            with gr.Column(scale=4, min_width=420):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML('<div class="section-title">Vehicle input</div>')
+            with gr.Column(scale=4, min_width=420), gr.Column(elem_classes=["panel"]):
+                gr.HTML('<div class="section-title">Vehicle input</div>')
 
-                    with gr.Row():
-                        model = gr.Dropdown(
-                            choices=model_choices,
-                            label="Audi model",
-                            value=model_choices[0][1],
-                        )
-                        year = gr.Slider(
-                            minimum=int(year_cfg["min"]),
-                            maximum=int(year_cfg["max"]),
-                            value=int(year_cfg["default"]),
-                            step=1,
-                            label="Year",
-                        )
-
-                    with gr.Row():
-                        transmission = gr.Dropdown(
-                            choices=transmission_choices,
-                            label="Transmission",
-                            value=transmission_choices[0][1],
-                        )
-                        fuel_type = gr.Dropdown(
-                            choices=fuel_choices,
-                            label="Fuel type",
-                            value=fuel_choices[0][1],
-                        )
-
-                    with gr.Row():
-                        mileage = gr.Number(
-                            value=mileage_cfg["default"],
-                            label="Mileage",
-                        )
-                        engine_size = gr.Number(
-                            value=engine_cfg["default"],
-                            label="Engine size (L)",
-                        )
-
-                    with gr.Row():
-                        mpg = gr.Number(
-                            value=mpg_cfg["default"],
-                            label="MPG",
-                        )
-                        tax = gr.Number(
-                            value=tax_cfg["default"],
-                            label="Road tax (£)",
-                        )
-
-                    estimate_button = gr.Button(
-                        "Estimate vehicle price",
-                        variant="primary",
-                        elem_id="estimate-button",
+                with gr.Row():
+                    model = gr.Dropdown(
+                        choices=model_choices,
+                        label="Audi model",
+                        value=model_choices[0][1],
+                    )
+                    year = gr.Slider(
+                        minimum=int(year_cfg["min"]),
+                        maximum=int(year_cfg["max"]),
+                        value=int(year_cfg["default"]),
+                        step=1,
+                        label="Year",
                     )
 
-            with gr.Column(scale=3, min_width=360):
-                with gr.Column(elem_classes=["panel"]):
-                    result_panel = gr.HTML(render_waiting())
+                with gr.Row():
+                    transmission = gr.Dropdown(
+                        choices=transmission_choices,
+                        label="Transmission",
+                        value=transmission_choices[0][1],
+                    )
+                    fuel_type = gr.Dropdown(
+                        choices=fuel_choices,
+                        label="Fuel type",
+                        value=fuel_choices[0][1],
+                    )
+
+                with gr.Row():
+                    mileage = gr.Number(
+                        value=mileage_cfg["default"],
+                        label="Mileage",
+                    )
+                    engine_size = gr.Number(
+                        value=engine_cfg["default"],
+                        label="Engine size (L)",
+                    )
+
+                with gr.Row():
+                    mpg = gr.Number(
+                        value=mpg_cfg["default"],
+                        label="MPG",
+                    )
+                    tax = gr.Number(
+                        value=tax_cfg["default"],
+                        label="Road tax (£)",
+                    )
+
+                estimate_button = gr.Button(
+                    "Estimate vehicle price",
+                    variant="primary",
+                    elem_id="estimate-button",
+                )
+
+            with gr.Column(scale=3, min_width=360), gr.Column(elem_classes=["panel"]):
+                result_panel = gr.HTML(render_waiting())
 
         # Full-width lower knowledge grid — this is what removes the old empty area.
         with gr.Row(equal_height=False):
-            with gr.Column(scale=3, min_width=330):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML('<div class="section-title">Vehicle summary</div>')
-                    vehicle_summary = gr.Dataframe(
-                        value=initial_summary,
-                        headers=["Attribute", "Value"],
-                        datatype=["str", "str"],
-                        interactive=False,
-                        wrap=True,
-                        elem_id="vehicle-summary",
-                    )
+            with gr.Column(scale=3, min_width=330), gr.Column(elem_classes=["panel"]):
+                gr.HTML('<div class="section-title">Vehicle summary</div>')
+                vehicle_summary = gr.Dataframe(
+                    value=initial_summary,
+                    headers=["Attribute", "Value"],
+                    datatype=["str", "str"],
+                    interactive=False,
+                    wrap=True,
+                    elem_id="vehicle-summary",
+                )
 
-            with gr.Column(scale=3, min_width=330):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML('<div class="section-title">Prediction guide</div>')
-                    gr.HTML(guide_html)
+            with gr.Column(scale=3, min_width=330), gr.Column(elem_classes=["panel"]):
+                gr.HTML('<div class="section-title">Prediction guide</div>')
+                gr.HTML(guide_html)
 
-            with gr.Column(scale=3, min_width=330):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML('<div class="section-title">Engineering evidence</div>')
-                    gr.HTML(evidence_html)
+            with gr.Column(scale=3, min_width=330), gr.Column(elem_classes=["panel"]):
+                gr.HTML('<div class="section-title">Engineering evidence</div>')
+                gr.HTML(evidence_html)
 
-            with gr.Column(scale=3, min_width=330):
-                with gr.Column(elem_classes=["panel"]):
-                    gr.HTML('<div class="section-title">Production-readiness evidence</div>')
-                    gr.HTML(readiness_html)
+            with gr.Column(scale=3, min_width=330), gr.Column(elem_classes=["panel"]):
+                gr.HTML('<div class="section-title">Production-readiness evidence</div>')
+                gr.HTML(readiness_html)
 
         gr.HTML(footer_html)
 
@@ -953,9 +946,9 @@ with gr.Blocks(
 
 if __name__ == "__main__":
     demo.launch(
-    theme=Base(
-        primary_hue="blue",
-        neutral_hue="slate",
-    ),
-    css=CUSTOM_CSS,
-)
+        theme=Base(
+            primary_hue="blue",
+            neutral_hue="slate",
+        ),
+        css=CUSTOM_CSS,
+    )

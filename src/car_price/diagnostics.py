@@ -38,7 +38,7 @@ def main() -> None:
         dtype=float,
     ).reshape(-1)
 
-    actual = y_test.to_numpy(dtype=float)
+    actual = y_test.to_numpy()
     residuals = actual - predictions
 
     metrics = {
